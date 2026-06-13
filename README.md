@@ -5,7 +5,7 @@ CookMind AI is a modern AI-powered food assistant that helps users discover reci
 ---
 
 ## 🚀 Live Demo
-👉 cookmind-pd6g027l9-harshitas-projects-b0b83ea6.vercel.app
+👉  https://cookmind-pd6g027l9-harshitas-projects-b0b83ea6.vercel.app
 
 ---
 
