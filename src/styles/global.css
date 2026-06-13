@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap');
+
+:root{
+
+  --bg:#fff8f5;
+
+  --card:#ffffff;
+
+  --primary:#ff4f81;
+
+  --secondary:#7c4dff;
+
+  --accent:#ffb347;
+
+  --text:#2d2d2d;
+
+  --gray:#6b7280;
+
+  --shadow:
+  0 10px 40px rgba(255,79,129,0.15);
+
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  scroll-behavior:smooth;
+}
+
+body{
+  background:var(--bg);
+
+  color:var(--text);
+
+  font-family:'Inter',sans-serif;
+
+  overflow-x:hidden;
+}
+
+.container{
+  width:90%;
+  max-width:1400px;
+  margin:auto;
+}
+
+section{
+  padding:100px 0;
+}
+
+button{
+  border:none;
+  cursor:pointer;
+
+  font-family:'Inter',sans-serif;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+/* GRADIENT BLOBS */
+
+body::before{
+  content:"";
+
+  position:fixed;
+
+  width:500px;
+  height:500px;
+
+  background:
+  radial-gradient(
+    circle,
+    rgba(255,79,129,0.25),
+    transparent
+  );
+
+  top:-200px;
+  left:-100px;
+
+  z-index:-1;
+}
+
+body::after{
+  content:"";
+
+  position:fixed;
+
+  width:500px;
+  height:500px;
+
+  background:
+  radial-gradient(
+    circle,
+    rgba(124,77,255,0.2),
+    transparent
+  );
+
+  bottom:-200px;
+  right:-100px;
+
+  z-index:-1;
+}

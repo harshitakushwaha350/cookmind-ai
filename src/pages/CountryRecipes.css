@@ -1,0 +1,311 @@
+.country-page{
+  min-height:100vh;
+  padding:120px 7%;
+  position:relative;
+  overflow:hidden;
+
+  background:
+  linear-gradient(
+    rgba(255,255,255,0.45),
+    rgba(255,255,255,0.45)
+  ),
+url("https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=2070&auto=format&fit=crop");
+
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
+}
+
+.food{
+  position:absolute;
+  font-size:3rem;
+  opacity:.18;
+  animation:floatFood 6s ease-in-out infinite;
+}
+
+.food1{top:120px;left:5%;}
+.food2{top:300px;right:5%;}
+.food3{top:600px;left:8%;}
+.food4{top:800px;right:8%;}
+.food5{top:1100px;left:50%;}
+
+@keyframes floatFood{
+  50%{
+    transform:translateY(-25px);
+  }
+}
+
+.back-home-btn{
+  position:fixed;
+  top:25px;
+  left:25px;
+  z-index:999;
+
+  width:55px;
+  height:55px;
+
+  border:none;
+  border-radius:50%;
+
+  background:rgba(255,255,255,0.08);
+
+  backdrop-filter:blur(12px);
+
+  color:white;
+
+  font-size:1.8rem;
+  font-weight:700;
+
+  cursor:pointer;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  transition:.3s ease;
+}
+
+.back-home-btn:hover{
+  transform:
+  translateY(-4px)
+  scale(1.08);
+
+  background:rgba(255,255,255,0.15);
+
+  box-shadow:
+  0 10px 30px rgba(0,0,0,.2);
+}
+
+/* HERO */
+
+.food-banner{
+  position:relative;
+  height:500px;
+  overflow:hidden;
+  border-radius:35px;
+  margin-bottom:70px;
+
+  box-shadow:
+  0 25px 60px rgba(0,0,0,.18);
+}
+
+.food-banner img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.food-banner::after{
+  content:"";
+  position:absolute;
+  inset:0;
+
+  background:
+  linear-gradient(
+  rgba(0,0,0,.25),
+  rgba(0,0,0,.75));
+}
+
+.banner-content{
+  position:absolute;
+  left:60px;
+  bottom:60px;
+  z-index:2;
+}
+
+.banner-content span{
+  background:white;
+  padding:10px 20px;
+  border-radius:50px;
+  font-weight:700;
+}
+
+.banner-content h1{
+  font-size:6rem;
+  margin-top:20px;
+  color:white;
+}
+
+.banner-content p{
+  color:#eee;
+  font-size:1.2rem;
+}
+
+/* TRENDING */
+
+.trending-foods{
+  margin-bottom:60px;
+}
+
+.trending-foods h2{
+  margin-bottom:25px;
+}
+
+.trending-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:15px;
+}
+
+.trend-pill{
+  padding:12px 24px;
+  border-radius:50px;
+
+  background:white;
+
+  box-shadow:
+  0 10px 25px rgba(0,0,0,.08);
+
+  font-weight:700;
+}
+
+/* GRID */
+
+.recipe-grid{
+  display:grid;
+
+  grid-template-columns:
+  repeat(auto-fit,minmax(320px,1fr));
+
+  gap:35px;
+}
+
+/* CARD */
+
+.recipe-card{
+  position:relative;
+  height:420px;
+
+  overflow:hidden;
+  border-radius:30px;
+  cursor:pointer;
+
+  backdrop-filter:blur(20px);
+
+  transition:.5s;
+
+  box-shadow:
+  0 20px 50px rgba(0,0,0,.12);
+}
+
+.recipe-card:hover{
+  transform:
+  translateY(-15px)
+  scale(1.03);
+}
+
+.recipe-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:.7s;
+}
+
+.recipe-card:hover img{
+  transform:scale(1.1);
+}
+
+.recipe-overlay{
+  position:absolute;
+  inset:0;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+
+  padding:25px;
+
+  background:
+  linear-gradient(
+  transparent,
+  rgba(0,0,0,.9));
+}
+
+.recipe-overlay h2{
+  color:white;
+  font-size:2rem;
+  margin-bottom:12px;
+}
+
+.recipe-meta{
+  display:flex;
+  gap:15px;
+  margin-bottom:20px;
+}
+
+.recipe-meta span{
+  color:white;
+}
+
+.video-btn{
+  border:none;
+  padding:14px 22px;
+  border-radius:50px;
+
+  background:
+  linear-gradient(
+  135deg,
+  #ff9f43,
+  #ff5e62);
+
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+}
+
+@media(max-width:768px){
+
+  .banner-content h1{
+    font-size:3rem;
+  }
+
+  .food-banner{
+    height:350px;
+  }
+
+}
+
+
+.country-page::before{
+
+ content:"";
+
+ position:fixed;
+
+ width:350px;
+ height:350px;
+
+ border-radius:50%;
+
+ background:
+ rgba(255,180,120,.18);
+
+ filter:blur(120px);
+
+ top:-100px;
+ left:-100px;
+
+ z-index:-1;
+} 
+
+.country-page::after{
+
+ content:"";
+
+ position:fixed;
+
+ width:350px;
+ height:350px;
+
+ border-radius:50%;
+
+ background:
+ rgba(255,90,120,.15);
+
+ filter:blur(140px);
+
+ bottom:-100px;
+ right:-100px;
+
+ z-index:-1;
+}
