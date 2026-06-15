@@ -1,14 +1,14 @@
 
 .recipe-page{
-  min-height:100vh;
   background:
-  linear-gradient(
-    135deg,
-    #0f0f0f,
-    #181818,
-    #232323
-  );
-  color:white;
+linear-gradient(
+  135deg,
+  #fffaf3,
+  #fff2df,
+  #ffe8cc
+);
+
+color:#2d2d2d;
   padding-bottom:100px;
   overflow:hidden;
 }
@@ -32,13 +32,12 @@
   position:absolute;
   inset:0;
 
-  background:
-  linear-gradient(
-    rgba(0,0,0,.15),
-    rgba(0,0,0,.75),
-    rgba(0,0,0,.95)
-  );
-
+ background:
+linear-gradient(
+  rgba(255,183,3,.15),
+  rgba(251,133,0,.45),
+  rgba(255,94,0,.65)
+);
   display:flex;
   flex-direction:column;
   justify-content:flex-end;
@@ -116,13 +115,15 @@
 .video-card,
 .steps-card{
 
-  background:
-  rgba(255,255,255,.06);
+background:
+rgba(255,255,255,.75);
+
+border:
+1px solid rgba(255,183,3,.15);
 
   backdrop-filter:blur(20px);
 
-  border:
-  1px solid rgba(255,255,255,.08);
+  
 
   border-radius:30px;
 
@@ -172,7 +173,7 @@
   border-bottom:
   1px solid rgba(255,255,255,.08);
 
-  color:#eee;
+  color:#444;
 
   font-size:1rem;
 }
@@ -219,7 +220,8 @@
 
   padding:12px 0;
 
-  color:#f1f1f1;
+ color:#444;
+font-weight:600;
 
   font-size:1.05rem;
 }
@@ -246,7 +248,7 @@
 
   line-height:1.8;
 
-  color:#e5e5e5;
+ color:#444;
 
   font-size:1.05rem;
 }
@@ -255,7 +257,7 @@
 
   line-height:1.9;
 
-  color:#ddd;
+  color:#555;
 }
 
 /* FLOATING GLOW */
@@ -362,4 +364,58 @@
 
     padding:25px;
   }
+}
+
+
+.recipe-back-btn{
+
+  position: fixed;
+
+  top: 25px;
+  left: 25px;
+
+  z-index: 9999;
+
+  width: 55px;
+  height: 55px;
+
+  border-radius: 50%;
+
+  
+
+  backdrop-filter: blur(15px);
+
+  -webkit-backdrop-filter: blur(15px);
+
+ background: rgba(255,255,255,.75);
+
+color:#fb8500;
+
+border:1px solid rgba(251,133,0,.2);
+
+  font-size: 1.5rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: all .35s ease;
+
+  box-shadow:
+  0 8px 25px rgba(0,0,0,.25);
+}
+
+.recipe-back-btn:hover{
+
+  transform:
+  translateY(-3px)
+  scale(1.08);
+
+  background:
+  rgba(255,183,3,.18);
+
+  border:
+  1px solid rgba(255,183,3,.4);
+
+  box-shadow:
+  0 15px 35px rgba(255,183,3,.25);
 }

@@ -14,6 +14,11 @@ const sleep = (ms) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
 export const askGemini = async (prompt) => {
+
+
+
+
+
   try {
     if (!API_KEY) {
       return "❌ Gemini API Key not found.";
@@ -23,7 +28,9 @@ export const askGemini = async (prompt) => {
 
     while (retries > 0) {
       try {
-        const result = await model.generateContent(`
+        const finalPrompt = prompt.includes("Return ONLY JSON")
+  ? prompt
+  : `
 You are a professional cooking assistant.
 
 Give answers in this format:
@@ -44,7 +51,9 @@ Give answers in this format:
 
 Question:
 ${prompt}
-        `);
+`;
+
+const result = await model.generateContent(finalPrompt);
 
         return result.response.text();
       } catch (error) {

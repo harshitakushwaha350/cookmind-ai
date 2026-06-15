@@ -1,16 +1,144 @@
 import "./RecipeDetails.css";
-import { useParams } from "react-router-dom";
-import recipes from "../data/recipes";
+
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { askGemini } from "../services/gemini";
+
 
 function RecipeDetails() {
+  const navigate = useNavigate();
 
   const { recipeName } = useParams();
 
-  const recipe = recipes.find(
-    item =>
-      item.title.toLowerCase() ===
-      decodeURIComponent(recipeName).toLowerCase()
-  );
+  const [recipe, setRecipe] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const [aiData, setAiData] = useState({
+    calories: "Loading...",
+    protein: "Loading...",
+    carbs: "Loading...",
+    fats: "Loading...",
+    chefTips: "Loading...",
+    suggestion: "Loading..."
+  });
+
+
+  useEffect(() => {
+
+    async function loadRecipe() {
+
+      try {
+
+        const res = await fetch(
+          `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeName}`
+        );
+
+        const data = await res.json();
+
+        if (data.meals) {
+
+          const meal = data.meals[0];
+
+          setRecipe(meal);
+
+
+          const aiPrompt = `
+Recipe Name: ${meal.strMeal}
+Country: ${meal.strArea}
+Category: ${meal.strCategory}
+
+Give ONLY valid JSON.
+
+{
+  "calories":"estimated calories",
+  "protein":"estimated protein",
+  "carbs":"estimated carbs",
+  "fats":"estimated fats",
+  "chefTips":"one professional chef tip",
+  "suggestion":"one serving suggestion"
+}
+`;
+
+        const aiResponse = await askGemini(aiPrompt);
+
+try {
+
+  const cleanResponse = aiResponse
+    .replace(/```json/g, "")
+    .replace(/```/g, "")
+    .trim();
+
+  const parsed = JSON.parse(cleanResponse);
+
+  setAiData({
+    calories: parsed.calories || "N/A",
+    protein: parsed.protein || "N/A",
+    carbs: parsed.carbs || "N/A",
+    fats: parsed.fats || "N/A",
+    chefTips: parsed.chefTips || "No tips available",
+    suggestion: parsed.suggestion || "No suggestion available"
+  });
+
+} catch (err) {
+
+  console.log("Gemini Parse Error:", err);
+  console.log("Gemini Response:", aiResponse);
+
+  setAiData({
+    calories: "Approx 350 kcal",
+    protein: "Approx 15g",
+    carbs: "Approx 30g",
+    fats: "Approx 12g",
+    chefTips: "Use fresh ingredients for best flavour.",
+    suggestion: `Serve ${meal.strMeal} with a side dish from ${meal.strArea}.`
+  });
+
+}
+
+        }
+
+      } catch (err) {
+
+        console.log(err);
+
+      } finally {
+
+        setLoading(false);
+
+      }
+
+    }
+
+    loadRecipe();
+
+  }, [recipeName]);
+
+
+  if (loading) {
+
+    return (
+
+      <div
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontSize: "2rem"
+        }}
+      >
+        🍽 Loading Recipe...
+      </div>
+
+    );
+
+  }
+
+
+
+
+
+
 
   if (!recipe) {
     return (
@@ -28,14 +156,33 @@ function RecipeDetails() {
     );
   }
 
+
+
   return (
 
+
     <div className="recipe-page">
+
+      <button
+        onClick={() => navigate("/explore")}
+        style={{
+          position: "fixed",
+          top: "20px",
+          left: "20px",
+          zIndex: "9999",
+          padding: "12px 18px",
+          border: "none",
+          borderRadius: "10px",
+          cursor: "pointer"
+        }}
+      >
+        ←
+      </button>
 
       <div className="recipe-hero">
 
         <img
-          src={recipe.image}
+          src={recipe.strMealThumb}
           alt={recipe.title}
         />
 
@@ -46,11 +193,11 @@ function RecipeDetails() {
           </span>
 
           <h1>
-            {recipe.title}
+            {recipe.strMeal}
           </h1>
 
           <p>
-            {recipe.country} • {recipe.category}
+            {recipe.strArea} • {recipe.strCategory}
           </p>
 
         </div>
@@ -67,15 +214,28 @@ function RecipeDetails() {
 
           <ul>
 
-            {recipe.ingredients.map(
-              (item,index)=>(
+
+
+            {[...Array(20)].map((_, index) => {
+
+              const ingredient =
+                recipe[`strIngredient${index + 1}`];
+
+              const measure =
+                recipe[`strMeasure${index + 1}`];
+
+              if (!ingredient) return null;
+
+              return (
 
                 <li key={index}>
-                  {item}
+                  {measure} {ingredient}
                 </li>
 
-              )
-            )}
+              );
+
+            })}
+
 
           </ul>
 
@@ -88,7 +248,7 @@ function RecipeDetails() {
           </h2>
 
           <a
-            href={recipe.youtubeLink}
+            href={recipe.strYoutube}
             target="_blank"
             rel="noreferrer"
             className="watch-btn"
@@ -104,29 +264,30 @@ function RecipeDetails() {
 
         <div className="ingredients-card">
 
-          <h2>
-            📊 Nutrition Facts
-          </h2>
 
-          <p>🔥 Calories: {recipe.calories}</p>
-          <p>💪 Protein: {recipe.protein}</p>
-          <p>🍞 Carbs: {recipe.carbs}</p>
-          <p>🧈 Fats: {recipe.fats}</p>
+
+          <h2>📊 Nutrition Facts</h2>
+
+          <p>🔥 Calories: {aiData.calories}</p>
+          <p>💪 Protein: {aiData.protein}</p>
+          <p>🍞 Carbs: {aiData.carbs}</p>
+          <p>🧈 Fats: {aiData.fats}</p>
 
         </div>
 
         <div className="ingredients-card">
 
-          <h2>
-            🍽 Recipe Info
-          </h2>
+          <h2>🍽 Recipe Info</h2>
 
-          <p>⏱ Time: {recipe.time}</p>
-          <p>⭐ Rating: {recipe.rating}</p>
-          <p>👨‍🍳 Chef: {recipe.chef}</p>
-          <p>🍴 Servings: {recipe.servings}</p>
+          <p>🌍 Country: {recipe.strArea}</p>
+
+          <p>🍴 Category: {recipe.strCategory}</p>
+
+          <p>🥘 Tags: {recipe.strTags || "Traditional"}</p>
 
         </div>
+
+
 
       </div>
 
@@ -136,19 +297,14 @@ function RecipeDetails() {
           👨‍🍳 Cooking Steps
         </h2>
 
-        <ol>
-
-          {recipe.steps.map(
-            (step,index)=>(
-
-              <li key={index}>
-                {step}
-              </li>
-
-            )
-          )}
-
-        </ol>
+        <div
+          style={{
+            whiteSpace: "pre-wrap",
+            lineHeight: "2"
+          }}
+        >
+          {recipe.strInstructions}
+        </div>
 
       </div>
 
@@ -159,7 +315,7 @@ function RecipeDetails() {
         </h2>
 
         <p>
-          {recipe.tips}
+          {aiData.chefTips}
         </p>
 
       </div>
@@ -170,10 +326,10 @@ function RecipeDetails() {
           🤖 AI Suggestion
         </h2>
 
-        <p>
-          {recipe.aiSuggestion}
-        </p>
 
+        <p>
+          {aiData.suggestion}
+        </p>
       </div>
 
     </div>

@@ -30,6 +30,9 @@ function CountryRecipes() {
 
         const data = await res.json();
 
+
+
+
         // Fallback if country recipes not available
 
         if (!data.meals || data.meals.length === 0) {
@@ -191,6 +194,8 @@ function CountryRecipes() {
   );
 
 }
+
+
 
 export default CountryRecipes;
 
